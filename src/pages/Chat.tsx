@@ -25,9 +25,14 @@ import {
   Users,
   Clock,
   Check,
-  CheckCheck
+  CheckCheck,
+  MessageCircle,
+  UserCheck,
+  Lock,
+  Zap
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import VerifiedBadge from "@/components/ui/verified-badge";
 
 interface Message {
   id: string;
@@ -143,7 +148,7 @@ const Chat = () => {
       setSearchResults(data || []);
     } catch (error: any) {
       toast({
-        title: "❌ Erro na busca",
+        title: "Erro na busca",
         description: error.message,
         variant: "destructive",
       });
@@ -173,7 +178,7 @@ const Chat = () => {
         setShowCodeInput(false);
         await loadMessages();
         toast({
-          title: "🎉 Chat aberto!",
+          title: "Chat aberto!",
           description: `Agora você pode conversar com ${selectedChat.display_name}`,
         });
       } else {
@@ -181,7 +186,7 @@ const Chat = () => {
       }
     } catch (error: any) {
       toast({
-        title: "❌ Erro",
+        title: "Erro",
         description: error.message,
         variant: "destructive",
       });
@@ -224,7 +229,7 @@ const Chat = () => {
       setNewMessage("");
     } catch (error: any) {
       toast({
-        title: "❌ Erro ao enviar mensagem",
+        title: "Erro ao enviar mensagem",
         description: error.message,
         variant: "destructive",
       });
@@ -269,7 +274,7 @@ const Chat = () => {
                   </Avatar>
                   {selectedChat.is_verified && (
                     <div className="absolute -bottom-1 -right-1 bg-blue-500 rounded-full p-1">
-                      <Shield className="h-4 w-4 text-white" />
+                      <VerifiedBadge size="sm" className="text-white" />
                     </div>
                   )}
                 </div>
@@ -278,8 +283,9 @@ const Chat = () => {
               </div>
               
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                <p className="text-sm text-white/80 text-center mb-4">
-                  🔐 Digite o código de mensagem para iniciar uma conversa segura:
+                <p className="text-sm text-white/80 text-center mb-4 flex items-center justify-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  Digite o código de mensagem para iniciar uma conversa segura:
                 </p>
                 <Input
                   type="text"
@@ -339,7 +345,7 @@ const Chat = () => {
                   <h3 className="font-bold text-lg">{selectedChat.display_name}</h3>
                   {selectedChat.is_verified && (
                     <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
-                      <Shield className="h-3 w-3 mr-1" />
+                      <VerifiedBadge size="sm" className="mr-1" />
                       Verificado
                     </Badge>
                   )}
@@ -375,8 +381,11 @@ const Chat = () => {
           <div className="max-w-4xl mx-auto p-4 space-y-4">
             {messages.length === 0 ? (
               <div className="text-center py-12">
-                <Sparkles className="h-12 w-12 text-primary/30 mx-auto mb-4" />
-                <p className="text-muted-foreground">✨ Início de uma nova conversa</p>
+                <MessageCircle className="h-12 w-12 text-primary/30 mx-auto mb-4" />
+                <p className="text-muted-foreground flex items-center justify-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Início de uma nova conversa
+                </p>
                 <p className="text-sm text-muted-foreground/70">Seja respeitoso e divirta-se!</p>
               </div>
             ) : (
@@ -484,10 +493,13 @@ const Chat = () => {
           <CardHeader>
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-                <Sparkles className="w-6 h-6 text-white" />
+                <MessageCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <CardTitle className="text-2xl">💬 Mensagens</CardTitle>
+                <CardTitle className="text-2xl flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  Mensagens
+                </CardTitle>
                 <p className="text-muted-foreground">Conecte-se com pessoas verificadas</p>
               </div>
             </div>
@@ -536,9 +548,9 @@ const Chat = () => {
                         <div className="flex items-center gap-2">
                           <p className="font-semibold">{profile.display_name}</p>
                           {profile.is_verified && (
-                            <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
-                              <Shield className="h-3 w-3 mr-1" />
-                              ✓
+                            <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700 flex items-center gap-1">
+                              <VerifiedBadge size="sm" />
+                              Verificado
                             </Badge>
                           )}
                         </div>
@@ -546,7 +558,7 @@ const Chat = () => {
                       </div>
                     </div>
                     <Button variant="outline" size="sm" className="hover:bg-primary hover:text-white shadow-soft">
-                      <Heart className="h-4 w-4 mr-2" />
+                      <MessageCircle className="h-4 w-4 mr-2" />
                       Conversar
                     </Button>
                   </div>
@@ -564,18 +576,21 @@ const Chat = () => {
 
             {!searchQuery && (
               <div className="text-center py-12">
-                <Sparkles className="h-16 w-16 text-primary/30 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">✨ Comece uma conversa</h3>
+                <MessageCircle className="h-16 w-16 text-primary/30 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
+                  <Sparkles className="w-5 h-5" />
+                  Comece uma conversa
+                </h3>
                 <p className="text-muted-foreground mb-4">
                   Busque por usuários verificados para iniciar um chat seguro
                 </p>
                 <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4 text-primary" />
+                    <VerifiedBadge size="sm" />
                     <span>Apenas usuários verificados</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-primary" />
+                    <Lock className="h-4 w-4 text-primary" />
                     <span>Conversas seguras</span>
                   </div>
                 </div>

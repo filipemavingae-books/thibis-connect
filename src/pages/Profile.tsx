@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useParams } from "react-router-dom";
+import VerifiedBadge from "@/components/ui/verified-badge";
 
 interface ProfileData {
   id: string;
@@ -231,13 +232,10 @@ const Profile = () => {
               </Avatar>
 
               <div className="flex-1 text-center md:text-left">
-                <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-2">
                   <h1 className="text-2xl font-bold">{profileData.display_name}</h1>
                   {profileData.is_verified && (
-                    <Badge variant="secondary" className="text-sm">
-                      <Shield className="w-3 h-3 mr-1" />
-                      Verificado
-                    </Badge>
+                    <VerifiedBadge size="lg" className="text-blue-500" />
                   )}
                 </div>
                 

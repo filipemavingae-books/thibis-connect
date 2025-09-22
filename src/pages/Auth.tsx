@@ -24,7 +24,12 @@ import {
   CheckCircle,
   AlertTriangle,
   Star,
-  Zap
+  Zap,
+  Camera,
+  FileText,
+  User,
+  AtSign,
+  Users
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useDeviceFingerprint } from "@/hooks/useDeviceFingerprint";
@@ -180,12 +185,12 @@ const Auth = () => {
       setUserEmail(signUpData.email);
       setShowOtpInput(true);
       toast({
-        title: "✨ Conta criada com sucesso!",
+        title: "Conta criada com sucesso!",
         description: "Código de verificação enviado para seu email.",
       });
     } catch (error: any) {
       toast({
-        title: "❌ Erro no cadastro",
+        title: "Erro no cadastro",
         description: error.message,
         variant: "destructive",
       });
@@ -222,12 +227,12 @@ const Auth = () => {
 
       navigate("/");
       toast({
-        title: "🎉 Login realizado!",
+        title: "Login realizado com sucesso!",
         description: "Bem-vindo de volta ao Thibis!",
       });
     } catch (error: any) {
       toast({
-        title: "❌ Erro no login",
+        title: "Erro no login",
         description: error.message,
         variant: "destructive",
       });
@@ -250,13 +255,13 @@ const Auth = () => {
       if (error) throw error;
 
       toast({
-        title: "🎊 Conta verificada!",
+        title: "Conta verificada com sucesso!",
         description: "Bem-vindo ao Thibis! Sua jornada segura começa agora.",
       });
       navigate("/");
     } catch (error: any) {
       toast({
-        title: "❌ Erro na verificação",
+        title: "Erro na verificação",
         description: error.message,
         variant: "destructive",
       });
@@ -271,7 +276,7 @@ const Auth = () => {
       // Check file size (max 20MB)
       if (file.size > 20 * 1024 * 1024) {
         toast({
-          title: "❌ Arquivo muito grande",
+          title: "Arquivo muito grande",
           description: "O arquivo deve ter no máximo 20MB",
           variant: "destructive",
         });
@@ -284,7 +289,7 @@ const Auth = () => {
       }));
 
       toast({
-        title: "✅ Arquivo carregado",
+        title: "Arquivo carregado",
         description: `${type === 'profile' ? 'Foto de perfil' : 'Documento'} selecionado com sucesso`,
       });
     }
@@ -309,18 +314,33 @@ const Auth = () => {
         <Card className="w-full max-w-md backdrop-blur-sm bg-white/10 border-red-500/30">
           <CardHeader className="text-center">
             <AlertTriangle className="w-16 h-16 mx-auto text-red-400 mb-4" />
-            <CardTitle className="text-white">🚫 Dispositivo Bloqueado</CardTitle>
+            <CardTitle className="text-white flex items-center justify-center gap-2">
+              <Shield className="w-5 h-5" />
+              Dispositivo Bloqueado
+            </CardTitle>
             <CardDescription className="text-white/80">
               Este dispositivo já possui uma conta registrada. Por segurança, apenas uma conta por dispositivo é permitida.
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center">
             <div className="space-y-3 text-sm text-white/70">
-              <p>💡 Para sua segurança, detectamos:</p>
+              <p className="flex items-center justify-center gap-2">
+                <Fingerprint className="w-4 h-4" />
+                Para sua segurança, detectamos:
+              </p>
               <div className="bg-white/5 p-3 rounded-lg space-y-1">
-                <p>🔒 ID do Dispositivo: {fingerprint?.id}</p>
-                <p>🌐 Sistema: {fingerprint?.platform}</p>
-                <p>📱 Resolução: {fingerprint?.screenResolution}</p>
+                <p className="flex items-center justify-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  ID do Dispositivo: {fingerprint?.id}
+                </p>
+                <p className="flex items-center justify-center gap-2">
+                  <Globe className="w-4 h-4" />
+                  Sistema: {fingerprint?.platform}
+                </p>
+                <p className="flex items-center justify-center gap-2">
+                  <Smartphone className="w-4 h-4" />
+                  Resolução: {fingerprint?.screenResolution}
+                </p>
               </div>
               <p className="mt-4">Entre com sua conta existente ou use outro dispositivo.</p>
             </div>
@@ -338,7 +358,10 @@ const Auth = () => {
             <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-white/20 to-white/5 rounded-full flex items-center justify-center backdrop-blur-sm">
               <Mail className="w-10 h-10 text-white animate-pulse" />
             </div>
-            <CardTitle className="text-white text-2xl font-bold">📧 Verificar Email</CardTitle>
+            <CardTitle className="text-white text-2xl font-bold flex items-center justify-center gap-2">
+              <Mail className="w-5 h-5" />
+              Verificar Email
+            </CardTitle>
             <CardDescription className="text-white/80 text-base">
               Código enviado para <strong>{userEmail}</strong>
             </CardDescription>
@@ -346,7 +369,10 @@ const Auth = () => {
           <CardContent>
             <form onSubmit={handleVerifyOtp} className="space-y-6">
               <div>
-                <Label htmlFor="otp" className="text-white font-medium">Código de Verificação</Label>
+                <Label htmlFor="otp" className="text-white font-medium flex items-center gap-2">
+                  <Key className="w-4 h-4" />
+                  Código de Verificação
+                </Label>
                 <Input
                   id="otp"
                   type="text"
@@ -389,7 +415,7 @@ const Auth = () => {
           <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-white/20 to-white/5 rounded-full flex items-center justify-center backdrop-blur-sm">
             <Sparkles className="w-10 h-10 text-white" />
           </div>
-          <CardTitle className="text-white text-3xl font-bold">✨ Thibis</CardTitle>
+          <CardTitle className="text-white text-3xl font-bold">Thibis</CardTitle>
           <CardDescription className="text-white/80 text-lg">
             Conecte-se com máxima segurança
           </CardDescription>
@@ -399,22 +425,27 @@ const Auth = () => {
             <TabsList className="grid w-full grid-cols-2 bg-white/5 border border-white/10">
               <TabsTrigger 
                 value="signin" 
-                className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70"
+                className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70 flex items-center gap-2"
               >
-                🔑 Entrar
+                <Key className="w-4 h-4" />
+                Entrar
               </TabsTrigger>
               <TabsTrigger 
                 value="signup" 
-                className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70"
+                className="data-[state=active]:bg-white/20 data-[state=active]:text-white text-white/70 flex items-center gap-2"
               >
-                ✨ Cadastrar
+                <UserCheck className="w-4 h-4" />
+                Cadastrar
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="signin" className="mt-6">
               <form onSubmit={handleSignIn} className="space-y-6">
                 <div>
-                  <Label htmlFor="signin-email" className="text-white font-medium">📧 Email</Label>
+                  <Label htmlFor="signin-email" className="text-white font-medium flex items-center gap-2">
+                    <Mail className="w-4 h-4" />
+                    Email
+                  </Label>
                   <Input
                     id="signin-email"
                     type="email"
@@ -426,7 +457,10 @@ const Auth = () => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="signin-password" className="text-white font-medium">🔐 Senha</Label>
+                  <Label htmlFor="signin-password" className="text-white font-medium flex items-center gap-2">
+                    <Lock className="w-4 h-4" />
+                    Senha
+                  </Label>
                   <div className="relative mt-2">
                     <Input
                       id="signin-password"
@@ -455,7 +489,7 @@ const Auth = () => {
                 >
                   {isLoading ? (
                     <>
-                      <Zap className="w-4 h-4 mr-2 animate-spin" />
+                      <Zap className="w-4 w-4 mr-2 animate-spin" />
                       Entrando...
                     </>
                   ) : (
@@ -474,7 +508,10 @@ const Auth = () => {
                 {signUpStep === 1 && (
                   <div className="space-y-6">
                     <div>
-                      <Label className="text-white font-medium">📸 Foto de Perfil*</Label>
+                      <Label className="text-white font-medium flex items-center gap-2">
+                        <Camera className="w-4 h-4" />
+                        Foto de Perfil
+                      </Label>
                       <div className="mt-2">
                         <Input
                           id="profile-photo"
@@ -491,7 +528,10 @@ const Auth = () => {
                           <Upload className="h-6 w-6" />
                           <div>
                             {signUpData.profilePhoto ? (
-                              <span className="text-green-300">✅ {signUpData.profilePhoto.name}</span>
+                              <span className="text-green-300 flex items-center gap-2">
+                                <CheckCircle className="w-4 h-4" />
+                                {signUpData.profilePhoto.name}
+                              </span>
                             ) : (
                               <span>Escolher sua foto de perfil</span>
                             )}
@@ -501,7 +541,10 @@ const Auth = () => {
                     </div>
 
                     <div>
-                      <Label className="text-white font-medium">🆔 Documento de Identidade*</Label>
+                      <Label className="text-white font-medium flex items-center gap-2">
+                        <FileText className="w-4 h-4" />
+                        Documento de Identidade
+                      </Label>
                       <div className="mt-2">
                         <Input
                           id="document-photo"
@@ -518,14 +561,20 @@ const Auth = () => {
                           <Shield className="h-6 w-6" />
                           <div>
                             {signUpData.documentPhoto ? (
-                              <span className="text-green-300">✅ {signUpData.documentPhoto.name}</span>
+                              <span className="text-green-300 flex items-center gap-2">
+                                <CheckCircle className="w-4 h-4" />
+                                {signUpData.documentPhoto.name}
+                              </span>
                             ) : (
                               <span>BI, Passaporte ou Cartão do Cidadão</span>
                             )}
                           </div>
                         </Label>
                       </div>
-                      <p className="text-xs text-white/60 mt-1">🔒 Segurança máxima - necessário para verificação</p>
+                      <p className="text-xs text-white/60 mt-1 flex items-center gap-1">
+                        <Lock className="w-3 h-3" />
+                        Segurança máxima - necessário para verificação
+                      </p>
                     </div>
 
                     <Button 
@@ -534,7 +583,7 @@ const Auth = () => {
                       disabled={!signUpData.profilePhoto || !signUpData.documentPhoto}
                       className="w-full bg-white text-primary hover:bg-white/90 font-bold py-3 shadow-glow"
                     >
-                      Continuar →
+                      Continuar
                     </Button>
                   </div>
                 )}
@@ -543,7 +592,10 @@ const Auth = () => {
                 {signUpStep === 2 && (
                   <div className="space-y-6">
                     <div>
-                      <Label htmlFor="nome" className="text-white font-medium">👤 Nome Completo*</Label>
+                      <Label htmlFor="nome" className="text-white font-medium flex items-center gap-2">
+                        <User className="w-4 h-4" />
+                        Nome Completo
+                      </Label>
                       <Input
                         id="nome"
                         type="text"
@@ -556,7 +608,10 @@ const Auth = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="nome-usuario" className="text-white font-medium">@️⃣ Nome de Usuário*</Label>
+                      <Label htmlFor="nome-usuario" className="text-white font-medium flex items-center gap-2">
+                        <AtSign className="w-4 h-4" />
+                        Nome de Usuário
+                      </Label>
                       <Input
                         id="nome-usuario"
                         type="text"
@@ -571,14 +626,17 @@ const Auth = () => {
                     </div>
 
                     <div>
-                      <Label className="text-white font-medium">⚧ Gênero*</Label>
+                      <Label className="text-white font-medium flex items-center gap-2">
+                        <Users className="w-4 h-4" />
+                        Gênero
+                      </Label>
                       <Select value={signUpData.genero} onValueChange={(value) => setSignUpData(prev => ({...prev, genero: value}))}>
                         <SelectTrigger className="mt-2 bg-white/10 border-white/20 text-white">
                           <SelectValue placeholder="Selecione seu gênero" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="masculino">👨 Masculino</SelectItem>
-                          <SelectItem value="feminino">👩 Feminino</SelectItem>
+                          <SelectItem value="masculino">Masculino</SelectItem>
+                          <SelectItem value="feminino">Feminino</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -590,7 +648,7 @@ const Auth = () => {
                         onClick={() => setSignUpStep(1)}
                         className="flex-1 border-white/20 text-white hover:bg-white/10"
                       >
-                        ← Voltar
+                        Voltar
                       </Button>
                       <Button 
                         type="button"
@@ -598,7 +656,7 @@ const Auth = () => {
                         disabled={!signUpData.nome || !signUpData.nomeUsuario || !signUpData.genero}
                         className="flex-1 bg-white text-primary hover:bg-white/90 font-bold shadow-glow"
                       >
-                        Continuar →
+                        Continuar
                       </Button>
                     </div>
                   </div>
@@ -608,7 +666,10 @@ const Auth = () => {
                 {signUpStep === 3 && (
                   <div className="space-y-6">
                     <div>
-                      <Label htmlFor="signup-email" className="text-white font-medium">📧 Email*</Label>
+                      <Label htmlFor="signup-email" className="text-white font-medium flex items-center gap-2">
+                        <Mail className="w-4 h-4" />
+                        Email
+                      </Label>
                       <Input
                         id="signup-email"
                         type="email"
@@ -621,7 +682,10 @@ const Auth = () => {
                     </div>
 
                     <div>
-                      <Label htmlFor="signup-password" className="text-white font-medium">🔐 Senha* (mín. 8 caracteres)</Label>
+                      <Label htmlFor="signup-password" className="text-white font-medium flex items-center gap-2">
+                        <Lock className="w-4 h-4" />
+                        Senha (mín. 8 caracteres)
+                      </Label>
                       <div className="relative mt-2">
                         <Input
                           id="signup-password"
@@ -654,16 +718,34 @@ const Auth = () => {
                             className="h-2 bg-white/10"
                           />
                           <div className="text-xs text-white/60 mt-1">
-                            {passwordStrength < 40 && "🔓 Muito fraca"}
-                            {passwordStrength >= 40 && passwordStrength < 70 && "🔒 Média"}
-                            {passwordStrength >= 70 && "🔐 Forte"}
+                            {passwordStrength < 40 && (
+                              <span className="flex items-center gap-1">
+                                <AlertTriangle className="w-3 h-3" />
+                                Muito fraca
+                              </span>
+                            )}
+                            {passwordStrength >= 40 && passwordStrength < 70 && (
+                              <span className="flex items-center gap-1">
+                                <Lock className="w-3 h-3" />
+                                Média
+                              </span>
+                            )}
+                            {passwordStrength >= 70 && (
+                              <span className="flex items-center gap-1">
+                                <Shield className="w-3 h-3" />
+                                Forte
+                              </span>
+                            )}
                           </div>
                         </div>
                       )}
                     </div>
 
                     <div>
-                      <Label htmlFor="confirm-password" className="text-white font-medium">🔐 Confirmar Senha*</Label>
+                      <Label htmlFor="confirm-password" className="text-white font-medium flex items-center gap-2">
+                        <Lock className="w-4 h-4" />
+                        Confirmar Senha
+                      </Label>
                       <div className="relative mt-2">
                         <Input
                           id="confirm-password"
@@ -686,7 +768,10 @@ const Auth = () => {
                         </Button>
                       </div>
                       {signUpData.confirmPassword && signUpData.password !== signUpData.confirmPassword && (
-                        <p className="text-xs text-red-300 mt-1">❌ Senhas não coincidem</p>
+                        <p className="text-xs text-red-300 mt-1 flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" />
+                          Senhas não coincidem
+                        </p>
                       )}
                     </div>
 
@@ -695,7 +780,7 @@ const Auth = () => {
                       <div className="bg-white/5 p-4 rounded-lg border border-white/10">
                         <div className="flex items-center gap-2 mb-2">
                           <Fingerprint className="w-4 h-4 text-green-300" />
-                          <span className="text-sm font-medium text-white">🔒 Dispositivo Seguro</span>
+                          <span className="text-sm font-medium text-white">Dispositivo Seguro</span>
                         </div>
                         <div className="text-xs text-white/60 space-y-1">
                           <p>ID: {fingerprint.id}</p>
@@ -711,7 +796,7 @@ const Auth = () => {
                         onClick={() => setSignUpStep(2)}
                         className="flex-1 border-white/20 text-white hover:bg-white/10"
                       >
-                        ← Voltar
+                        Voltar
                       </Button>
                       <Button 
                         type="submit" 
@@ -726,7 +811,7 @@ const Auth = () => {
                         ) : (
                           <>
                             <Star className="w-4 h-4 mr-2" />
-                            Criar Conta ✨
+                            Criar Conta
                           </>
                         )}
                       </Button>
