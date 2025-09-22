@@ -52,13 +52,16 @@ All colors MUST be HSL.
     --ring: 142 76% 36%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
+    --gradient-primary: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 42%));
     --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
     --gradient-green: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 42%));
 
     /* Shadows */
-    --shadow-soft: 0 2px 20px -4px hsl(var(--primary) / 0.1);
-    --shadow-medium: 0 10px 40px -8px hsl(var(--primary) / 0.15);
+    --shadow-soft: 0 2px 20px -4px hsl(142 76% 36% / 0.1);
+    --shadow-medium: 0 10px 40px -8px hsl(142 76% 36% / 0.15);
+    --shadow-elegant: 0 20px 60px -12px hsl(142 76% 36% / 0.25);
+    --shadow-glow: 0 0 40px hsl(142 76% 42% / 0.4);
+    
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -128,13 +131,28 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 600;
   }
 }
 
 /* Custom animations and components */
 @layer components {
-  .hero-gradient {
+  .bg-gradient-primary {
     background: var(--gradient-primary);
+  }
+  
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
   }
   
   .glass-effect {

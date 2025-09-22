@@ -10,6 +10,7 @@ import Chat from "./pages/Chat";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { useEffect } from "react";
+import { Card } from "@/components/ui/card";
 
 const queryClient = new QueryClient();
 
@@ -18,8 +19,13 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-primary">
+        <Card className="p-8 backdrop-blur-sm bg-white/10 border-white/20">
+          <div className="text-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+            <p className="text-white font-medium">Carregando Thibis...</p>
+          </div>
+        </Card>
       </div>
     );
   }
@@ -36,8 +42,13 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-primary">
+        <Card className="p-8 backdrop-blur-sm bg-white/10 border-white/20">
+          <div className="text-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+            <p className="text-white font-medium">Carregando Thibis...</p>
+          </div>
+        </Card>
       </div>
     );
   }
